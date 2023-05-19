@@ -1,9 +1,9 @@
 class CreateUsers < ActiveRecord::Migration[6.0]
   def change
     create_table :users do |t|
-      t.string :email
-      t.string :password_digest
-
+      t.string :email, null: false
+      #pour s'assurer que l'email est unique
+      t.string :password_digest, null: false
       t.timestamps
     end
   end
