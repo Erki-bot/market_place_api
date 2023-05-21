@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[update show]
+  before_action :set_user, only: %i[update show destroy]
 
   def show
     render json: @user
@@ -30,6 +30,12 @@ class Api::V1::UsersController < ApplicationController
       render json: @user.errors, status: :unprocessable_entity
   end
 
+  def destroy
+    @user.destroy!
+    head 204
+    rescue
+      render json: @user.errors, status: :unprocessable_entity
+  end
   private
   def user_params
     params.require(:user).permit(:email, :password)
