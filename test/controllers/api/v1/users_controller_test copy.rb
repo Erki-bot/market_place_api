@@ -58,9 +58,7 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
   end
   test "shouldn't update user with invalid email" do
     put api_v1_user_url(@user),
-      params:{user:{ email:"sks",password:"qsjiss"}},
-      headers: { Authorization: @jwts.encode(user_id: @user.id) },
-      as: :json
+      params:{user:{ email:"sks",password:"qsjiss"}}, as: :json
 
     assert_response :unprocessable_entity
   end

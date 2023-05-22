@@ -1,6 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: %i[update show destroy]
-
+  before_action :check_owner, only: %i[update destroy]
   def show
     render json: @user
   end
@@ -36,6 +36,7 @@ class Api::V1::UsersController < ApplicationController
     rescue
       render json: @user.errors, status: :unprocessable_entity
   end
+
   private
   def user_params
     params.require(:user).permit(:email, :password)
@@ -43,5 +44,9 @@ class Api::V1::UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def check_owner
+    head :forbidden unless @user.id == current_user&.id
   end
 end
